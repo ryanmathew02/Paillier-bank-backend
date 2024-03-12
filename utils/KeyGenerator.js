@@ -1,4 +1,6 @@
 const { Key } = require("../models/Keys");
+const { encryptionKeys } = require('../utils/keyEncryption');
+
 
 function isPrime(n) {
     if (n < 2) return false;
@@ -37,7 +39,8 @@ function modInverse(a, m) {
     return (x % m + m) % m;
 }
 
-async function KeyGenerator(accountID) {
+async function KeyGenerator(accountID, password) {
+    console.log("password for key encryption", password);
     let max = process.env.KeyRange;
     console.log("Key generator function", max);
     let p, q, n, g, r, gMu, gLambda;
@@ -85,8 +88,8 @@ async function KeyGenerator(accountID) {
                 r: r
             },
             privateKey: {
-                gMu: gMu,
-                gLambda: gLambda
+                gMu: encryptionKeys(password, gMu),
+                gLambda: encryptionKeys(password, gLambda)
             }
         });
         newKey.save();

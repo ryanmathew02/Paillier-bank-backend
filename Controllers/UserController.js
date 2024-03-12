@@ -148,7 +148,7 @@ const setPassword = asyncHanlder(async (req, resp) => {
     const loginPassword = req.body.loginPassword;
     const userDetails = req.body.userDetails;
 
-    const result = await RegisterRequest.findOne({
+    const result = await RegisterRequest.findOneAndDelete({
         $and: [
             {
                 accountNumber: { $eq: userDetails.accountNumber }
@@ -160,6 +160,7 @@ const setPassword = asyncHanlder(async (req, resp) => {
     })
     console.log("setpass ", result)
     if (result) {
+        KeyGenerator(userDetails.accountID, transactionPassword);
         Login.create({
             accountID: userDetails.accountID,
             LoginPassword: loginPassword,
@@ -167,7 +168,6 @@ const setPassword = asyncHanlder(async (req, resp) => {
             userID: new mongoose.Types.ObjectId(userDetails._id)
         }).then(res => {
             console.log("created new credentials");
-            KeyGenerator(userDetails.accountID);
             resp.json({
                 status: 200,
                 message: "created new credentials"
