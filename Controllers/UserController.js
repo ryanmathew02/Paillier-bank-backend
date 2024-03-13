@@ -8,6 +8,9 @@ const { default: mongoose } = require('mongoose');
 const jwt = require("jsonwebtoken");
 const { Key } = require('../models/Keys');
 const { KeyGenerator } = require('../utils/KeyGenerator');
+const { Accounts } = require('../models/Accounts');
+const { decryption } = require('../utils/paillier-algo');
+
 
 
 const UserLogin = asyncHanlder(async (req, res) => {
@@ -196,11 +199,15 @@ const userDetails = async (req, res) => {
     console.log("get user details", req.decoded);
     const accountid = req.decoded.accountID;
 
-    const userDetails = await User.findOne({ accountID: accountid }).populate('keys');
-    console.log(userDetails);
-    res.json({
-        userDetails: "users"
-    })
+    Accounts.findOne({ accountID: accountid })
+        .populate('userID')
+        .select("-panNumber -phoneNumber -email -netBankEnable -keys")
+        .then(result => {
+            console.log("get account details ", result);
+            res.json({
+                accountDetails: result
+            })
+        })
 }
 
 module.exports = { UserLogin, Register, VerifyAccount, setPassword, logout, userDetails }

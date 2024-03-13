@@ -15,7 +15,7 @@ const Key = mongoose.Schema({
 })
 
 Key.post('save', async function () {
-    console.log("Key save post function");
+    console.log("Key save post function ", this._id);
     await User.findOneAndUpdate({
         accountID: this.accountID
     }, {

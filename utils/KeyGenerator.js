@@ -1,5 +1,8 @@
+const { Accounts } = require("../models/Accounts");
 const { Key } = require("../models/Keys");
 const { encryptionKeys } = require('../utils/keyEncryption');
+const { encryption } = require('./paillier-algo');
+
 
 
 function isPrime(n) {
@@ -92,7 +95,19 @@ async function KeyGenerator(accountID, password) {
                 gLambda: encryptionKeys(password, gLambda)
             }
         });
-        newKey.save();
+        newKey.save().then(res => {
+            const initialBalance = 1000;
+            const cipher = encryption({
+                n: n,
+                g: g,
+                r: r
+            }, initialBalance);
+            const newAccount = new Accounts({
+                balance: cipher,
+                accountID: accountID,
+            })
+            newAccount.save();
+        });
     }
 
 }
