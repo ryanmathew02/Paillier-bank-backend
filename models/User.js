@@ -10,7 +10,7 @@ const user = mongoose.Schema({
     panNumber: String,
     accountID: String,
     phoneNumber: String,
-    email: String,
+    email: { type: String, unique: true },
     netBankEnable: { type: boolean, "default": false },
     keys: { type: Schema.Types.ObjectId, ref: 'Key' }
 })

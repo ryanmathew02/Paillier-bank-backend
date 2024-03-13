@@ -1,6 +1,7 @@
 const { boolean } = require("mathjs");
 const mongoose = require("mongoose");
 const { User } = require("./User");
+const { Benif } = require("./Benificiary");
 var Schema = mongoose.Schema;
 
 
@@ -20,6 +21,12 @@ accounts.pre('save', async function () {
     await User.findOne({ accountID: this.accountID }).then(rese => {
         console.log("pre save accounts ", rese, rese._id);
         this.userID = new mongoose.Types.ObjectId(rese._id);
+        Benif.create({
+            userID: new mongoose.Types.ObjectId(rese._id),
+            accountID: this.accountID
+        }).then(result => {
+            console.log(result);
+        })
     })
 })
 

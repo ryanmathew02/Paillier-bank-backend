@@ -12,14 +12,16 @@ const corsOptions = {
 }
 
 
-const UsesController = require('./Routes/UserController');
+const UserRoutes = require('./Routes/UserRoutes');
+const BenificiaryRoutes = require('./Routes/BenificiaryRoutes');
 
 app.use(cookieParser())
 app.use(cors(corsOptions));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use('/user', UsesController)
+app.use('/user', UserRoutes)
+app.use('/benificiary', BenificiaryRoutes)
 app.listen(process.env.PORT, () => {
     console.log(`Listening on port ${process.env.PORT}`)
 })
