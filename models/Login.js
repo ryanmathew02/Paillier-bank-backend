@@ -22,7 +22,7 @@ login.statics.checkLogin = async function (accountID, LoginPassword) {
     console.log("CheckLgoin");
     const user = await this.findOne({
         accountID: accountID
-    });
+    }).populate("userID");
     if (user) {
         const check = await bcrypt.compare(LoginPassword, user.LoginPassword);
         if (check) {

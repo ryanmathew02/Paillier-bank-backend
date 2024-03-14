@@ -9,9 +9,8 @@ const accounts = mongoose.Schema({
     balance: String,
     accountID: { type: String, required: true, unique: true },
     transaction: [{
-        to: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        other: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         recieved: Boolean,
-        sent: Boolean,
         ammout: String
     }],
     userID: { type: Schema.Types.ObjectId, ref: 'User' }

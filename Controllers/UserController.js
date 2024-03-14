@@ -21,7 +21,8 @@ const UserLogin = asyncHanlder(async (req, res) => {
 
     try {
         const user = await Login.checkLogin(accountID, password);
-        const plain = { accountID: user.accountID, userID: user.userID }
+        console.log("login users", user);
+        const plain = { accountID: user.accountID, userID: user.userID, email: user.userID.email, keys: user.userID.keys }
         const token = await jwt.sign(plain, process.env.JWT, { expiresIn: process.env.JWTAge });
         console.log(token);
         res.cookie('jwt', token, { maxAge: 900000, httpOnly: true, sameSite: 'none', secure: true })

@@ -1,11 +1,12 @@
 
 
 function encryption(key, message) {
+    console.log("Amount Encryption", key, message);
     const k1 = BigInt(BigInt(key.g) ** BigInt(message)) % BigInt(key.n * key.n);
     const k2 = BigInt(BigInt(key.r) ** BigInt(key.n)) % BigInt(key.n * key.n);
 
     const cipher = (k1 * k2) % BigInt(key.n * key.n);
-
+    console.log("value ", cipher);
     return cipher;
 }
 

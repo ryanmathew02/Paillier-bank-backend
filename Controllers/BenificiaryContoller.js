@@ -42,6 +42,7 @@ const addBenificiary = async (req, res) => {
 
 const getBenificiary = async (req, res) => {
     const user = req.decoded;
+    console.log("getBenif api");
 
     Benif.findOne({ accountID: user.accountID })
         .select("list")

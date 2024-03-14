@@ -91,8 +91,10 @@ async function KeyGenerator(accountID, password) {
                 r: r
             },
             privateKey: {
-                gMu: encryptionKeys(password, gMu),
-                gLambda: encryptionKeys(password, gLambda)
+                // gMu: encryptionKeys(password, gMu),
+                // gLambda: encryptionKeys(password, gLambda)
+                gMu: gMu,
+                gLambda: gLambda
             }
         });
         newKey.save().then(res => {
